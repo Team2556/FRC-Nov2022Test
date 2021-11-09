@@ -19,20 +19,20 @@ public class Drive extends TimedRobot{
 //compressor air thing
 //solenoid controls those later
     
-    Talon rFMotor = new Talon(0);
-    Talon rRMotor = new Talon(3);
-    Talon rDrop1 = new Talon(4);
-    Talon rDrop2 = new Talon(99);
+    Talon rFMotor = new Talon(1);
+    Talon rRMotor = new Talon(4);
+    Talon rDrop1 = new Talon(2);
+    Talon rDrop2 = new Talon(3);
     SpeedControllerGroup rDrop = new SpeedControllerGroup(rDrop1, rDrop2);
     SpeedControllerGroup rSide2 = new SpeedControllerGroup(rFMotor, rDrop, rRMotor); // Yes drop
 
 
 
 
-    Talon lFMotor = new Talon(1);
-    Talon lRMotor = new Talon(2);
-    Talon lDrop1 = new Talon(5);
-    Talon lDrop2 = new Talon(98);
+    Talon lFMotor = new Talon(5);
+    Talon lRMotor = new Talon(8);
+    Talon lDrop1 = new Talon(6);
+    Talon lDrop2 = new Talon(7);
     SpeedControllerGroup lDrop = new SpeedControllerGroup(lDrop1, lDrop2);
     SpeedControllerGroup lSide2 = new SpeedControllerGroup(lFMotor, lDrop, lRMotor); //Yes drop
 
@@ -67,9 +67,10 @@ public class Drive extends TimedRobot{
         if (compressor.enabled())
         {   //If the middle wheels are down, switches to tank drive.
             driveDrop.tankDrive(Xbox1.getY(Hand.kLeft), Xbox1.getY(Hand.kRight));
-        }
+        } else {
             driveMecanum.driveCartesian(Xbox1.getY(Hand.kLeft), Xbox1.getX(Hand.kLeft), Xbox1.getX(Hand.kRight));
             //Drives classic mecanum otherwise.
+        }
     }
 
     
