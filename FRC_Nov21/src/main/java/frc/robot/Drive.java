@@ -21,8 +21,9 @@ public class Drive extends TimedRobot{
     
     Talon rFMotor = new Talon(0);
     Talon rRMotor = new Talon(3);
-    Talon rDrop = new Talon(4);
-    SpeedControllerGroup rSideS = new SpeedControllerGroup(rFMotor, rRMotor); //No drop
+    Talon rDrop1 = new Talon(4);
+    Talon rDrop2 = new Talon(99);
+    SpeedControllerGroup rDrop = new SpeedControllerGroup(rDrop1, rDrop2);
     SpeedControllerGroup rSide2 = new SpeedControllerGroup(rFMotor, rDrop, rRMotor); // Yes drop
 
 
@@ -30,8 +31,9 @@ public class Drive extends TimedRobot{
 
     Talon lFMotor = new Talon(1);
     Talon lRMotor = new Talon(2);
-    Talon lDrop = new Talon(5);
-    SpeedControllerGroup lSideS = new SpeedControllerGroup(lFMotor, lRMotor); //No drop
+    Talon lDrop1 = new Talon(5);
+    Talon lDrop2 = new Talon(98);
+    SpeedControllerGroup lDrop = new SpeedControllerGroup(lDrop1, lDrop2);
     SpeedControllerGroup lSide2 = new SpeedControllerGroup(lFMotor, lDrop, lRMotor); //Yes drop
 
     MecanumDrive driveMecanum = new MecanumDrive(lFMotor, lRMotor, rFMotor, rRMotor);
@@ -42,20 +44,32 @@ public class Drive extends TimedRobot{
     XboxController Xbox1 = new XboxController(0);
 
 
+    Boolean compressorEnabled = true;
 
 
 
-
-    public void Drivebase(){
+    public void doubleDrive(){
         // double drive = Xbox1.getY(Hand.kLeft);
         // double turn = Xbox1.getX(Hand.kRight);
-        boolean wheelDrop = true; //I don't want to research syntax for this. 
-        if (wheelDrop){
-            Drive.driveDrop(1,1);
+        
+        if (Xbox1.getAButton())
+        {
+           compressorEnabled = !compressorEnabled;
+           if (compressorEnabled = true){
+                compressor.start();
+           }
+           else{
+               compressor.stop();
+           }
         }
-        driveMecanum();
 
-
+        
+        if (compressor.enabled())
+        {   //If the middle wheels are down, switches to tank drive.
+            driveDrop.tankDrive(Xbox1.getY(Hand.kLeft), Xbox1.getY(Hand.kRight));
+        }
+            driveMecanum.driveCartesian(Xbox1.getY(Hand.kLeft), Xbox1.getX(Hand.kLeft), Xbox1.getX(Hand.kRight));
+            //Drives classic mecanum otherwise.
     }
 
     
